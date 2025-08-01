@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
-import pprint
 from db.models.forecast_conditions import ForecastConditions
+from db.models.wind_and_coastal_waters import WindAndCoastalWaters
 from db.setup_db import setup_db
 from datetime import datetime
 
@@ -38,14 +38,13 @@ def get_forecast_data(table_index):
 # Parse Forecast Conditions:
 
 forecast_conditions = get_forecast_data(1)
-wind_and_coastal_water = get_forecast_data(2)
+wind_and_coastal_waters = get_forecast_data(2)
 
 # for forecast_header in forecast_headers:
 #     print(forecast_header.text)
 
 if __name__ == "__main__":
     setup_db()
-    pprint.pprint(forecast_conditions)
     for forecast_condition in forecast_conditions:
         fc = ForecastConditions(
             date=datetime.now(),
@@ -55,5 +54,15 @@ if __name__ == "__main__":
             weather_condition=forecast_condition['Weather Condition']
         )
         fc.save()
+
+    for wind_and_coastal_water in wind_and_coastal_waters:
+        wac = WindAndCoastalWaters(
+            date=datetime.now(),
+            place=wind_and_coastal_water['Place'],
+            speed=wind_and_coastal_water['Speed'],
+            direction=wind_and_coastal_water['Direction'],
+            coastal_water=wind_and_coastal_water['Coastal Water']
+        )
+        wac.save()
     # print("====================================")
     # pprint.pprint(wind_and_coastal_water)
