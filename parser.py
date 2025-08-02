@@ -49,6 +49,7 @@ if __name__ == "__main__":
 
 
     for forecast_condition in forecast_conditions:
+        # print(forecast_condition)
         fc = ForecastConditions(
             date=datetime.now(),
             caused_by=forecast_condition['Caused By'],
