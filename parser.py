@@ -37,14 +37,17 @@ def get_forecast_data(table_index):
 
 # Parse Forecast Conditions:
 
-forecast_conditions = get_forecast_data(1)
-wind_and_coastal_waters = get_forecast_data(2)
+forecast_conditions = get_forecast_data(0)
+wind_and_coastal_waters = get_forecast_data(1)
 
 # for forecast_header in forecast_headers:
 #     print(forecast_header.text)
 
 if __name__ == "__main__":
     setup_db()
+    url = "https://weather-api-781h.onrender.com/forecast-conditions"
+
+
     for forecast_condition in forecast_conditions:
         fc = ForecastConditions(
             date=datetime.now(),
@@ -53,7 +56,17 @@ if __name__ == "__main__":
             place=forecast_condition['Place'],
             weather_condition=forecast_condition['Weather Condition']
         )
-        fc.save()
+        fc.save()   
+
+        # response = requests.post(url, json={
+        #     'date': datetime.now().isoformat(),
+        #     'caused_by': forecast_condition['Caused By'],
+        #     'impacts': forecast_condition['Impacts'],
+        #     'place': forecast_condition['Place'],
+        #     'weather_condition': forecast_condition['Weather Condition']
+        # })
+
+        # print(response.text)
 
     for wind_and_coastal_water in wind_and_coastal_waters:
         wac = WindAndCoastalWaters(
@@ -64,5 +77,7 @@ if __name__ == "__main__":
             coastal_water=wind_and_coastal_water['Coastal Water']
         )
         wac.save()
+
+    
     # print("====================================")
     # pprint.pprint(wind_and_coastal_water)
