@@ -27,6 +27,6 @@ jobs:
             - name: Run Python script
               run: python parser.py
               env:
-                MONGO_DB_URI: "mongodb+srv://petmalumarjon:putanginamo@freedom-app.yoiinpm.mongodb.net/?retryWrites=true&w=majority&appName=freedom-app"
+                MONGO_DB_URI: ${{ secrets.MONGO_URI }}
 
 
