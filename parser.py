@@ -48,16 +48,17 @@ if __name__ == "__main__":
     url = "https://weather-api-781h.onrender.com/forecast-conditions"
 
 
-    for forecast_condition in forecast_conditions:
-        # print(forecast_condition)
-        fc = ForecastConditions(
-            date=datetime.now(),
-            caused_by=forecast_condition['Caused By'],
-            impacts=forecast_condition['Impacts'],
-            place=forecast_condition['Place'],
-            weather_condition=forecast_condition['Weather Condition']
-        )
-        fc.save()   
+    if(len(forecast_conditions) > 0):
+        for forecast_condition in forecast_conditions:
+            # print(forecast_condition)
+            fc = ForecastConditions(
+                date=datetime.now(),
+                caused_by=forecast_condition.get('Caused By', ''),
+                impacts=forecast_condition.get('Impacts', ''),
+                place=forecast_condition.get('Place', ''),
+                weather_condition=forecast_condition.get('Weather Condition', '')
+            )
+            fc.save()   
 
         # response = requests.post(url, json={
         #     'date': datetime.now().isoformat(),
@@ -69,15 +70,16 @@ if __name__ == "__main__":
 
         # print(response.text)
 
-    for wind_and_coastal_water in wind_and_coastal_waters:
-        wac = WindAndCoastalWaters(
-            date=datetime.now(),
-            place=wind_and_coastal_water['Place'],
-            speed=wind_and_coastal_water['Speed'],
-            direction=wind_and_coastal_water['Direction'],
-            coastal_water=wind_and_coastal_water['Coastal Water']
-        )
-        wac.save()
+    if(len(wind_and_coastal_waters) > 0):
+        for wind_and_coastal_water in wind_and_coastal_waters:
+            wac = WindAndCoastalWaters(
+                date=datetime.now(),
+                place=wind_and_coastal_water.get('Place', ''),
+                speed=wind_and_coastal_water.get('Speed', ''),
+                direction=wind_and_coastal_water.get('Direction', ''),
+                coastal_water=wind_and_coastal_water.get('Coastal Water', '')
+            )
+            wac.save()
 
     
     # print("====================================")
