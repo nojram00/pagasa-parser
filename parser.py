@@ -17,8 +17,10 @@ html = BeautifulSoup(response.text, 'html.parser')
 
 tables = html.find_all('table')
 
+count = len(tables)
+
 def get_forecast_data(table_index):
-    forecast_table = tables[table_index]
+    forecast_table = tables[table_index + 1 if count == 5 else table_index]
     forecast_headers = forecast_table.find_all('tr')[0].find_all('th')
     forecast_rows = forecast_table.find_all('tr')[1:]
 
@@ -46,6 +48,8 @@ wind_and_coastal_waters = get_forecast_data(1)
 if __name__ == "__main__":
     setup_db()
     url = "https://weather-api-781h.onrender.com/forecast-conditions"
+
+    print(f"Table Count: {len(tables)}")
 
 
     if(len(forecast_conditions) > 0):
